@@ -5,8 +5,12 @@ const router = express.Router();
 
 
 router.get('/', async (req, res) => {
+    try {
     const students = await studentModel.find()
     res.status(200).send(students)
+    } catch {
+        res.status(400).send("Student not found")
+    }
  });
 router.get('/:id', async ( req, res) => {
     const id = req.params.id;
@@ -19,10 +23,16 @@ router.get('/:id', async ( req, res) => {
  });
  
  router.post("/", async ( req, res)=> {
-     const data = req.body;
-     const newStudent = await studentModel.create(data)
-     newStudent.save()
-     res.status(201).send(newStudent)
+    try {
+        const data = req.body;
+        const newStudent = await studentModel.create(data)
+        newStudent.save()
+        res.status(201).send(newStudent)
+    } catch (err : any) {
+        res.status(500).send(err.message)
+
+    }
+     
  })
  
  router.put("/:id", async (req, res) => {
