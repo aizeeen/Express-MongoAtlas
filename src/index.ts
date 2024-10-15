@@ -2,12 +2,17 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { studentModel } from './models/student';
 import studentRouter from './routers/students';
-
+import cors from "cors";
 
  
 
 const app = express();
 const port = 5000;
+
+app.use(cors({
+    origin: "http://localhost:5173",
+}
+));
 app.use(express.json());
 
 
